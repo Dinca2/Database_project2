@@ -3,6 +3,7 @@ package project2.dbms;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -23,10 +24,14 @@ public class Driver {
             Connection c = DriverManager.getConnection(URL, USR, PSW);
             Statement statement = c.createStatement();
             ResultSet result = statement.executeQuery(query);
+            //Retrieving the ResultSetMetaData object
+            ResultSetMetaData rsmd = result.getMetaData();
+            //getting the column type
+            int column_count = rsmd.getColumnCount();
             int count = 0;
             while (result.next() && count < 100) {
                 String data = "";
-                for (int i = 1; i <= 2; i++) {
+                for (int i = 1; i <= column_count; i++) {
                     data += result.getString(i) + ":";
                 } //for
                 System.out.println(data);
